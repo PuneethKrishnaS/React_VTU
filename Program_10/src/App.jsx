@@ -4,14 +4,22 @@ export default function App() {
     const [users, setUsers] = useState(null);
     const [search, setSearch] = useState("");
 
-    useEffect(() => {
-        fetch("https://dummyjson.com/users")
+    const response = () => {
+        return fetch("https://dummyjson.com/users")
             .then((res) => res.json())
             .then((res) => setUsers(res));
+    };
+    useEffect(() => {
+        response();
     }, []);
 
     const onSearch = (e) => {
         setSearch(e.target.value);
+    };
+
+    const refresh = () => {
+        setUsers(null)
+        response();
     };
 
     return (
@@ -56,14 +64,15 @@ export default function App() {
                 )}
             </div>
 
-            <div className="w-full p-5 border-t border-neutral-300">
+            <div className="w-full p-5 border-t border-neutral-300 flex justify-center items-center gap-5">
                 <input
                     type="text"
-                    className="bg-white w-full max-w-2xl mx-auto block rounded-full py-2 px-5 focus:outline-none border border-neutral-300"
+                    className="bg-white w-full max-w-2xl block rounded-full py-2 px-5 focus:outline-none border border-neutral-300"
                     onChange={onSearch}
                     value={search}
                     placeholder="Search"
                 />
+                <button onClick={refresh} className="px-3 py-2 bg-green-600 rounded-full text-white cursor-pointer">Refresh</button>
             </div>
         </div>
     );
