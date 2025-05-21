@@ -1,11 +1,7 @@
-import React from 'react'
-
-export default function BasicFigure({id, removeImage}) {
+export default function BasicFigure({source,caption}) {
   return (
     <div>
-      <img src="image" alt="" />
-      <p>Image</p>
-      <button onClick={() => removeImage(id)}>Remove</button>
+      <img src={source} alt={caption} width={100} height={100} />
     </div>
   )
 }
