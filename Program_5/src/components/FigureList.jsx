@@ -2,22 +2,36 @@ import React, { useState } from "react";
 import BasicFigure from "./BasicFigure";
 
 export default function FigureList() {
-    const [figures, setFigures] = useState([{id: Date.now()}]);
+  const [URL, setURL] = useState("");
+  const [images, setImages] = useState([]);
 
-    const appendImage = () => {
-        setFigures([...figures, { id: Date.now() }]);
-    };
+  const handleURL = (e) => {
+    setURL(e.target.value);
+  };
 
-    const removeImage = (id) => {
-        setFigures(figures.filter((figure) => figure.id !== id));
-    };
+  const addImage = () => {
+    if (URL.trim()) {
+      setImages([...images, {url : URL}]);
+    }
+    console.log(images);
+    
+  };
 
-    return (
-        <div>
-            <button onClick={appendImage}>Add Image</button>
-            {figures.map((figure) => (
-                <BasicFigure key={figure.id} id={figure.id} removeImage={removeImage} />
-            ))}
+  const deleteImage = (index) => {
+    setImages(images.filter((_, i) => i !== index))
+  };
+
+  return (
+    <div>
+      <input type="text" onChange={handleURL} value={URL} />
+      <button onClick={addImage}>Add Image</button>
+
+      {images.map((image, index) => (
+        <div key={index}>
+          <BasicFigure source={image.url} caption={"link Image"} />
+          <button onClick={() => deleteImage(index)}>Delete</button>
         </div>
-    );
+      ))}
+    </div>
+  );
 }
